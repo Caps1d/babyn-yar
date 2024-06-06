@@ -1,0 +1,79 @@
+---
+import {
+  HeaderSection,
+  HeaderDropdownItem,
+  HeaderLink,
+  HeaderDropdown,
+  LanugagePicker,
+  MobileNavToggle
+} from 'ui'
+---
+
+<header class="fixed top-0 z-10 w-full bg-white">
+  <div
+    class="mx-auto flex items-start justify-between px-4 pb-3 pt-8 md:justify-normal md:px-8 lg:px-12"
+  >
+    <a href="/" aria-label="Go to home page" class="mr-12">
+      <img src="/logo-en.webp" alt="Site logo" class="w-44" />
+    </a>
+    <nav class="flex items-center justify-end md:justify-between">
+      <HeaderSection>
+        <HeaderLink href="/events">events</HeaderLink>
+      </HeaderSection>
+      <HeaderDropdown>
+        <HeaderLink slot="trigger">holocaust</HeaderLink>
+        <Fragment slot="list">
+          <HeaderDropdownItem href="/holocaust/list-of-holocaust-victims">
+            list of holocaust victims
+          </HeaderDropdownItem>
+          <HeaderDropdownItem href="/holocaust/testimonies">
+            eyewitnesses’ testimony
+          </HeaderDropdownItem>
+        </Fragment>
+      </HeaderDropdown>
+      <HeaderDropdown>
+        <HeaderLink slot="trigger">education</HeaderLink>
+        <Fragment slot="list">
+          <HeaderDropdownItem href="/education/history">
+            history
+          </HeaderDropdownItem>
+          <HeaderDropdownItem href="/education/map">
+            map of Holocaust
+          </HeaderDropdownItem>
+          <HeaderDropdownItem href="/education/archive">
+            archive
+          </HeaderDropdownItem>
+          <HeaderDropdownItem href="/education/library">
+            library
+          </HeaderDropdownItem>
+          <HeaderDropdownItem href="/topical-excursions">
+            topical excursions
+          </HeaderDropdownItem>
+          <HeaderDropdownItem
+            href="/education/exhibitions/fotovistavka-prisvyachena-70-i-kh"
+          >
+            exhibition
+          </HeaderDropdownItem>
+        </Fragment>
+      </HeaderDropdown>
+      <HeaderDropdown>
+        <HeaderLink slot="trigger">connect</HeaderLink>
+        <Fragment slot="list">
+          <HeaderDropdownItem href="/connect/find-us">
+            find us
+          </HeaderDropdownItem>
+          <HeaderDropdownItem href="/connect/contact">
+            contact
+          </HeaderDropdownItem>
+        </Fragment>
+      </HeaderDropdown>
+      <HeaderSection>
+        <HeaderLink href="/gallery">gallery</HeaderLink>
+      </HeaderSection>
+      <div class="md:border-l md:border-l-black">
+        <LanugagePicker client:load lang="en" />
+      </div>
+      <MobileNavToggle client:load />
+    </nav>
+  </div>
+</header>

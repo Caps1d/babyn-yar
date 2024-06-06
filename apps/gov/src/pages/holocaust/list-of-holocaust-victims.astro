@@ -1,0 +1,154 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro'
+import { SSRPagination } from 'ui'
+import type { Metadata, Victim } from 'shared-types'
+import { ResponseError } from 'shared'
+import InternalError from '@/components/InternalError.astro'
+
+export const prerender = false
+
+type PaginatedResponse = {
+  victims: Victim[]
+  metadata: Metadata
+}
+
+async function fetchVictims(searchParams: string) {
+  const apiUrl = new URL(import.meta.env.API_URL + '/victims')
+  apiUrl.search = searchParams
+  try {
+    const response = await fetch(apiUrl)
+    const json = await response.json()
+    if (response.ok) {
+      return { ok: true as const, data: json as PaginatedResponse }
+    }
+    const error = new ResponseError(response.status, json.error)
+    return { ok: false as const, error }
+  } catch (e) {
+    console.log(e)
+    const error = new ResponseError(500, 'the server encountered an error')
+    return { ok: false as const, error }
+  }
+}
+
+let victims: Victim[] = []
+let metadata: Metadata | undefined = undefined
+
+const fullname = Astro.url.searchParams.get('fullname') || ''
+const info = Astro.url.searchParams.get('info') || ''
+
+if (Astro.request.method === 'POST') {
+  const formData = await Astro.request.formData()
+  const fullname = formData.get('fullname')
+  const info = formData.get('info')
+
+  const redirectUrl = new URL(Astro.url.href)
+  redirectUrl.searchParams.set('page', '1')
+
+  if (fullname && typeof fullname === 'string') {
+    redirectUrl.searchParams.set('fullname', fullname)
+  } else {
+    redirectUrl.searchParams.delete('fullname')
+  }
+
+  if (info && typeof info === 'string') {
+    redirectUrl.searchParams.set('info', info)
+  } else {
+    redirectUrl.searchParams.delete('info')
+  }
+
+  return Astro.redirect(redirectUrl.toString())
+}
+
+const response = await fetchVictims(Astro.url.search)
+
+if (response.ok) {
+  metadata = response.data.metadata
+  victims = response.data.victims
+}
+---
+
+{
+  response.error ? (
+    <InternalError />
+  ) : (
+    <MainLayout title="Списки розстріляних" description="Списки розстріляних">
+      <div class="not-prose mx-auto max-w-4xl">
+        <div class="mb-7">
+          <h1 class="text-3xl font-bold">Списки розстріляних</h1>
+          <p class="mt-2 text-sm italic">
+            Матеріали взяті з фонду "Пам’ять Бабиного Яру", голова І. М. Левітас
+          </p>
+        </div>
+        <div class="mb-10">
+          <form
+            method="POST"
+            class="rounded border border-stone-900/10 bg-stone-200 px-8 py-4 text-base"
+          >
+            <div class="grid grid-cols-1 gap-x-5 gap-y-5 md:grid-cols-2">
+              <label class="block w-full text-base">
+                ПІБ
+                <input
+                  type="text"
+                  name="fullname"
+                  value={fullname ?? ''}
+                  class="block h-10 w-full rounded border border-stone-900/20 px-2 outline-none focus:ring-2 focus:ring-stone-400"
+                />
+              </label>
+              <label class="block text-base">
+                Інфо
+                <input
+                  type="text"
+                  name="info"
+                  value={info ?? ''}
+                  class="block h-10 w-full rounded border border-stone-900/20 px-2 outline-none focus:ring-2 focus:ring-stone-400"
+                />
+              </label>
+            </div>
+            <button class="mt-5 rounded bg-stone-600 px-4 py-2 text-stone-100 outline-none focus:ring-2 focus:ring-stone-200 focus:ring-offset-stone-950">
+              Пошук
+            </button>
+          </form>
+        </div>
+        {victims.length > 0 && metadata ? (
+          <>
+            <table class="w-full max-w-4xl table-auto border-collapse">
+              <thead>
+                <tr>
+                  <th class="border-l border-t" />
+                  <th class="border-t py-2 pl-3 text-left font-bold">ПІБ</th>
+                  <th class="border-r border-t py-2 pl-3 text-left font-bold">
+                    Інфо
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {victims.map((victim: Victim, i) => (
+                  <tr class="text-base odd:bg-zinc-50 even:bg-white">
+                    <td class="border-b border-l border-t pl-3">
+                      {metadata &&
+                        (metadata.currentPage - 1) * metadata.pageSize + i + 1}
+                    </td>
+                    <td class="border-b border-t py-2 pl-3">
+                      {victim.fullname}
+                    </td>
+                    <td class="border-b border-r border-t py-2 pl-3">
+                      {victim.info}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <div class="mt-10 max-w-4xl">
+              <SSRPagination
+                current={metadata.currentPage}
+                total={metadata.lastPage}
+              />
+            </div>
+          </>
+        ) : (
+          <p>За вашим запитом не знайдено результатів</p>
+        )}
+      </div>
+    </MainLayout>
+  )
+}

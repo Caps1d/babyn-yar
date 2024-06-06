@@ -1,0 +1,54 @@
+---
+import type { GetStaticPaths, Page } from 'astro'
+import { allLegislativeBasis } from '@/content'
+import type { LegislativeBasisData } from 'content-schema'
+import MainLayout from '@/layouts/MainLayout.astro'
+import { FloatImage, MediaListItem, Pagination } from 'ui'
+
+export const getStaticPaths = (({ paginate }) => {
+  const docs = allLegislativeBasis.data.legislativeBasis
+  return paginate(docs, { pageSize: 10 })
+}) satisfies GetStaticPaths
+
+interface Props {
+  page: Page<LegislativeBasisData>
+}
+
+const { page } = Astro.props
+const docs = page.data
+---
+
+<MainLayout title="Документи" description="Документи">
+  <div class="not-prose">
+    <h1 class="mb-10 text-3xl font-bold">Документи</h1>
+    {
+      docs.map(doc => (
+        <MediaListItem href={doc.href}>
+          <h2 slot="header" class="text-2xl font-bold">
+            {doc.title}
+          </h2>
+          <FloatImage slot="left" src={doc.imgSrc} alt={doc.title} />
+          <p
+            slot="right"
+            class="text-base italic hover:underline hover:underline-offset-4"
+          >
+            Read more
+          </p>
+        </MediaListItem>
+      ))
+    }
+    {
+      page.lastPage > 1 && (
+        <div class="mt-10">
+          <Pagination
+            next={page.url.next}
+            prev={page.url.prev}
+            current={page.currentPage}
+            total={page.lastPage}
+            baseUrl="/legislative-basis/"
+          />
+        </div>
+      )
+    }
+  </div>
+</MainLayout>

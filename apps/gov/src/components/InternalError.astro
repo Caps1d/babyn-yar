@@ -1,0 +1,10 @@
+---
+import BaseError from './BaseError.astro'
+---
+
+<BaseError code={500}>
+  <Fragment slot="title">Щось пішло не так</Fragment>
+  <Fragment slot="description">
+    На жаль, наш сервер зустрів невідому трудність. Ми вже працюємо над цим!
+  </Fragment>
+</BaseError>

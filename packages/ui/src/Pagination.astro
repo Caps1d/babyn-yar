@@ -1,0 +1,53 @@
+---
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+interface Props {
+  next?: string
+  prev?: string
+  current: number
+  total: number
+  baseUrl: string
+}
+
+const { next, prev, current, total, baseUrl } = Astro.props
+const delta = 3
+const lower = Math.max(1, current - delta)
+const upper = Math.min(total, current + delta)
+const pages = Array.from({ length: upper - lower + 1 }, (_, i) => i + lower)
+---
+
+<div class="flex items-center justify-end gap-2">
+  <a
+    href={baseUrl + 1}
+    class={`-mr-2.5 flex -space-x-3 ${
+      prev ? '' : 'pointer-events-none opacity-30'
+    }`}
+  >
+    <ChevronLeft className="w-4 h-4" />
+    <ChevronLeft className="w-4 h-4" />
+  </a>
+  <a href={prev} class={`${prev ? '' : 'pointer-events-none opacity-30'}`}>
+    <ChevronLeft className="w-4 h-4" />
+  </a>
+  {
+    pages.map(pageNum => (
+      <a
+        href={baseUrl + pageNum}
+        class={`text-base ${pageNum === current ? 'font-bold' : ''}`}
+      >
+        {pageNum}
+      </a>
+    ))
+  }
+  <a href={next} class={`${next ? '' : 'pointer-events-none opacity-30'}`}>
+    <ChevronRight className="w-4 h-4" />
+  </a>
+  <a
+    href={baseUrl + total}
+    class={`-ml-2.5 flex -space-x-3 ${
+      next ? '' : 'pointer-events-none opacity-30'
+    }`}
+  >
+    <ChevronRight className="w-4 h-4" />
+    <ChevronRight className="w-4 h-4" />
+  </a>
+</div>

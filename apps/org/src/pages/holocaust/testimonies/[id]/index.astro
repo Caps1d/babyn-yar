@@ -1,0 +1,52 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro'
+import InternalError from '@/components/InternalError.astro'
+import { generateHTML } from 'tip-tap-utils'
+import { fetchVictimTestimony } from '@/api'
+import type { VictimTestimony } from 'shared-types'
+import { Document } from 'ui'
+
+export const prerender = false
+
+let testimony: VictimTestimony | undefined = undefined
+let content: string | undefined = undefined
+
+const id = Astro.params.id
+const response = await fetchVictimTestimony(id as string)
+
+if (response.ok) {
+  testimony = response.testimony
+  content = generateHTML(testimony.content)
+}
+
+if (response.error && response.error.isNotFoundError()) {
+  return new Response(null, { status: 404 })
+}
+---
+
+{
+  response.error || !testimony ? (
+    <InternalError />
+  ) : (
+    <MainLayout title={testimony.title} description={testimony.description}>
+      <Fragment set:html={content} />
+      <div>
+        {testimony.documents.length > 0 && (
+          <div class="max-w-md">
+            <p class="font-semibold">Documents</p>
+            {testimony.documents.map(url => (
+              <Document href={url}>{url.split('/').at(-1)}</Document>
+            ))}
+          </div>
+        )}
+      </div>
+    </MainLayout>
+  )
+}
+
+<style is:global>
+  div > img,
+  div > video {
+    @apply !-mx-4 !h-auto !w-[calc(100%+2rem)] !max-w-[calc(100%+2rem)] md:!-mx-[calc(39px+2rem)] md:!w-[calc(100%+((2rem+39px)*2))] md:!max-w-[calc(100%+((2rem+39px)*2))] lg:!-mx-[calc(39px+3rem)] lg:!w-[calc(100%+((3rem+39px)*2))] lg:!max-w-[calc(100%+((3rem+39px)*2))];
+  }
+</style>

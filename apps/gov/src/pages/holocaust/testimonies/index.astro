@@ -1,0 +1,63 @@
+---
+import type { Book, Metadata } from 'shared-types'
+import { FloatImage, MediaListItem, SSRPagination } from 'ui'
+import MainLayout from '@/layouts/MainLayout.astro'
+import { ResponseError, formatDate } from 'shared'
+import { fetchVictimTestimonies } from '@/api'
+import InternalError from '@/components/InternalError.astro'
+
+export const prerender = false
+
+let testimonies: Book[] = []
+let metadata: Metadata | undefined = undefined
+let error: ResponseError | undefined = undefined
+
+const currentPage = Astro.url.searchParams.get('page') || '1'
+const response = await fetchVictimTestimonies(currentPage)
+
+if (response.ok) {
+  testimonies = response.data.testimonies
+  metadata = response.data.metadata
+}
+
+if (!response.ok) {
+  error = response.error
+}
+
+if (response.error && response.error.isNotFoundError()) {
+  return new Response(null, { status: 404 })
+}
+---
+
+{
+  error ? (
+    <InternalError />
+  ) : (
+    <MainLayout
+      title="Свідчення очевидців трагедії"
+      description="Свідчення очевидців трагедії"
+    >
+      <div class="not-prose">
+        <h1 class="mb-10 text-3xl font-bold">Свідчення очевидців трагедії</h1>
+        {testimonies.map(t => (
+          <MediaListItem href={`/holocaust/testimonies/${t.id}`}>
+            <div slot="header" class="">
+              <h2 class="text-2xl font-bold">{t.title}</h2>
+              <p class="text-base opacity-40">{formatDate(t.occuredOn)}</p>
+            </div>
+            <FloatImage slot="left" src={t.cover} alt={t.title} />
+            <p slot="right">{t.description}</p>
+          </MediaListItem>
+        ))}
+        <div class="mt-10">
+          {testimonies.length > 0 && metadata && (
+            <SSRPagination
+              current={metadata.currentPage}
+              total={metadata.lastPage}
+            />
+          )}
+        </div>
+      </div>
+    </MainLayout>
+  )
+}

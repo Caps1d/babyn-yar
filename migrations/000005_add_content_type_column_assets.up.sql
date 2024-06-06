@@ -1,0 +1,1 @@
+ALTER TABLE assets ADD COLUMN content_type TEXT NOT NULL;

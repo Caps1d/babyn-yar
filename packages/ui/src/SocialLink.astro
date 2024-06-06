@@ -1,0 +1,19 @@
+---
+export type Props = {
+  url: string
+}
+
+const { url } = Astro.props
+---
+
+<a
+  href={url}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="flex items-center gap-2"
+>
+  <slot name="icon" />
+  <span class="hover:underline">
+    <slot name="text" />
+  </span>
+</a>

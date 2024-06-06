@@ -1,0 +1,22 @@
+{
+  "name": "ui",
+  "type": "module",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {},
+  "main": "index.ts",
+  "types": "index.ts",
+  "dependencies": {
+    "embla-carousel-react": "^8.0.0-rc12",
+    "i18n": "*",
+    "lucide-react": "^0.292.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "shared": "*"
+  },
+  "devDependencies": {
+    "eslint-config-custom": "*",
+    "tailwindcss": "^3.3.5",
+    "tsconfig": "*"
+  }
+}

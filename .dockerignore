@@ -1,0 +1,11 @@
+node_modules
+dist
+.astro
+.svelte-kit
+build
+
+.DS_Store
+*.webm
+
+.env
+.env.production

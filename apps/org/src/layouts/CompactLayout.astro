@@ -1,0 +1,18 @@
+---
+import BaseLayout from './BaseLayout.astro'
+
+interface Props {
+  title: string
+  description: string
+}
+
+const { title, description } = Astro.props
+---
+
+<BaseLayout {title} {description}>
+  <div
+    class="prose-p:my-3 prose-ol:p-0 prose-li:p-0 prose-ol:list-inside prose-ul:list-inside prose prose-ul:marker:text-black prose-li:marker:text-black max-w-none text-lg text-black"
+  >
+    <slot />
+  </div>
+</BaseLayout>

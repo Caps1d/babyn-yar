@@ -1,0 +1,13 @@
+{
+  "name": "content-schema",
+  "type": "module",
+  "main": "index.ts",
+  "types": "index.ts",
+  "dependencies": {
+    "zod": "^3.22.2"
+  },
+  "devDependencies": {
+    "eslint-config-custom": "*",
+    "tsconfig": "*"
+  }
+}

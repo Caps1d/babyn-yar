@@ -1,0 +1,16 @@
+---
+import HeaderSection from './HeaderSection.astro'
+---
+
+<HeaderSection>
+  <div class="">
+    <slot name="trigger" />
+  </div>
+  <div
+    class="absolute left-1/2 z-20 hidden min-w-[260px] -translate-x-1/2 group-hover:block"
+  >
+    <ul class="m-2 bg-white py-2 shadow">
+      <slot name="list" />
+    </ul>
+  </div>
+</HeaderSection>

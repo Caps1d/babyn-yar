@@ -1,0 +1,41 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro'
+import InternalError from '@/components/InternalError.astro'
+import type { Event } from 'shared-types'
+import { fetchEvent } from '@/api'
+import { generateHTML } from 'tip-tap-utils'
+
+export const prerender = false
+
+let event: Event | undefined = undefined
+let content: string | undefined = undefined
+
+const id = Astro.params.id
+const response = await fetchEvent(id as string)
+
+if (response.ok) {
+  event = response.event
+  content = generateHTML(event.content)
+}
+
+if (response.error && response.error.isNotFoundError()) {
+  return new Response(null, { status: 404 })
+}
+---
+
+{
+  response.error || !event ? (
+    <InternalError />
+  ) : (
+    <MainLayout title={event.title} description={event.description}>
+      <Fragment set:html={content} />
+    </MainLayout>
+  )
+}
+
+<style is:global>
+  div > img,
+  div > video {
+    @apply !-mx-4 !h-auto !w-[calc(100%+2rem)] !max-w-[calc(100%+2rem)] md:!-mx-[calc(39px+2rem)] md:!w-[calc(100%+((2rem+39px)*2))] md:!max-w-[calc(100%+((2rem+39px)*2))] lg:!-mx-[calc(39px+3rem)] lg:!w-[calc(100%+((3rem+39px)*2))] lg:!max-w-[calc(100%+((3rem+39px)*2))];
+  }
+</style>

@@ -1,0 +1,60 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro'
+import { FloatImage, MediaListItem, SSRPagination } from 'ui'
+import type { HolocaustDocument, Metadata } from 'shared-types'
+import { ResponseError, formatDate } from 'shared'
+import InternalError from '@/components/InternalError.astro'
+import { fetchHolocaustDocuments } from '@/api'
+
+export const prerender = false
+
+let docs: HolocaustDocument[] = []
+let metadata: Metadata | undefined = undefined
+let error: ResponseError | undefined = undefined
+
+const currentPage = Astro.url.searchParams.get('page') || '1'
+const response = await fetchHolocaustDocuments(currentPage)
+
+if (response.ok) {
+  docs = response.data.documents
+  metadata = response.data.metadata
+}
+
+if (!response.ok) {
+  error = response.error
+}
+
+if (response.error && response.error.isNotFoundError()) {
+  return new Response(null, { status: 404 })
+}
+---
+
+{
+  error ? (
+    <InternalError />
+  ) : (
+    <MainLayout title="Документи Голокосту" description="Документи Голокосту">
+      <div class="not-prose">
+        <h1 class="mb-10 text-3xl font-bold">Документи</h1>
+        {docs.map(d => (
+          <MediaListItem href={`/holocaust/documents/${d.id}`}>
+            <div slot="header" class="">
+              <h2 class="text-2xl font-bold">{d.title}</h2>
+              <p class="text-base opacity-40">{formatDate(d.occuredOn)}</p>
+            </div>
+            <FloatImage slot="left" src={d.cover} alt={d.title} />
+            <p slot="right">{d.description}</p>
+          </MediaListItem>
+        ))}
+        <div class="mt-10">
+          {docs.length > 0 && metadata && (
+            <SSRPagination
+              current={metadata.currentPage}
+              total={metadata.lastPage}
+            />
+          )}
+        </div>
+      </div>
+    </MainLayout>
+  )
+}

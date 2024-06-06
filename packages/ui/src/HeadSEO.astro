@@ -1,0 +1,30 @@
+---
+export interface Props {
+  siteTitle: string
+  ogImage: string
+  title: string
+  description: string
+}
+
+const { title, description, siteTitle, ogImage } = Astro.props
+
+const canonicalURL = new URL(
+  Astro.url.pathname.replace(/([^/])$/, '$1/'),
+  Astro.site
+)
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="theme-color" content="#ffffff" />
+<meta name="generator" content={Astro.generator} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:title" content={title} />
+<meta property="og:site_name" content={siteTitle} />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+<link rel="canonical" href={canonicalURL} />

@@ -1,0 +1,38 @@
+---
+import type { GetStaticPaths, Page } from 'astro'
+import { allExhibitions } from '@/content'
+import type { ExhibitionData } from 'content-schema'
+import MainLayout from '@/layouts/MainLayout.astro'
+import { FloatImage, MediaListItem } from 'ui'
+
+export const getStaticPaths = (({ paginate }) => {
+  const exhibitions = allExhibitions.data.exhibitions
+  return paginate(exhibitions, { pageSize: 10 })
+}) satisfies GetStaticPaths
+
+interface Props {
+  page: Page<ExhibitionData>
+}
+
+const { page } = Astro.props
+const exhibitions = page.data
+---
+
+<MainLayout title="Виставки" description="Виставки">
+  <div class="not-prose">
+    <h1></h1>
+    {
+      exhibitions.map(item => (
+        <MediaListItem href={item.href}>
+          <h2 slot="header" class="text-2xl font-bold">
+            {item.title}
+          </h2>
+          <FloatImage slot="left" src={item.imgSrc} alt={item.title} />
+          <span slot="right" class="text-base italic">
+            Читати далі
+          </span>
+        </MediaListItem>
+      ))
+    }
+  </div>
+</MainLayout>

@@ -1,0 +1,10 @@
+{
+  "name": "i18n",
+  "type": "module",
+  "main": "index.ts",
+  "types": "index.ts",
+  "devDependencies": {
+    "tsconfig": "*",
+    "eslint-config-custom": "*"
+  }
+}

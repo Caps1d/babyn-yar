@@ -1,0 +1,17 @@
+{
+  "name": "tip-tap-utils",
+  "main": "index.ts",
+  "types": "index.ts",
+  "type": "module",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {},
+  "dependencies": {
+    "@tiptap/html": "^2.1.11",
+    "@tiptap/starter-kit": "^2.1.11",
+    "@tiptap/extension-image": "^2.1.11",
+    "@tiptap/extension-link": "^2.1.11",
+    "@tiptap/extension-text-align": "^2.1.11",
+    "@tiptap/extension-underline": "^2.1.11"
+  }
+}

@@ -1,0 +1,108 @@
+---
+title:
+  'Фотодокументальна виставка з нагоди Міжнародного дня визволення в’язнів
+  фашистських концтаборів.'
+description:
+  'Фотодокументальна виставка з нагоди Міжнародного дня визволення в’язнів
+  фашистських концтаборів.'
+---
+
+import { MultiCarousel, Document, DocumentList } from 'ui'
+export const images = [
+  '/assets/exhibitions/day-of-liberation-from-concentration-camps/1.jpg',
+  '/assets/exhibitions/day-of-liberation-from-concentration-camps/10.jpg',
+  '/assets/exhibitions/day-of-liberation-from-concentration-camps/11.jpg',
+  '/assets/exhibitions/day-of-liberation-from-concentration-camps/12.jpg',
+  '/assets/exhibitions/day-of-liberation-from-concentration-camps/13.jpg',
+  '/assets/exhibitions/day-of-liberation-from-concentration-camps/14.jpg',
+  '/assets/exhibitions/day-of-liberation-from-concentration-camps/2.jpg',
+  '/assets/exhibitions/day-of-liberation-from-concentration-camps/3.jpg',
+  '/assets/exhibitions/day-of-liberation-from-concentration-camps/4.jpg',
+  '/assets/exhibitions/day-of-liberation-from-concentration-camps/5.jpg',
+  '/assets/exhibitions/day-of-liberation-from-concentration-camps/6.jpg',
+  '/assets/exhibitions/day-of-liberation-from-concentration-camps/7.jpg',
+  '/assets/exhibitions/day-of-liberation-from-concentration-camps/8.jpg',
+  '/assets/exhibitions/day-of-liberation-from-concentration-camps/9.jpg'
+]
+export const docs = [
+  {
+    name: 'Рабинович-Церульникова Євгенія Аронівна',
+    href: '/assets/exhibitions/day-of-liberation-from-concentration-camps/rabynovych_ye.a._cyrulnykovoyi_yevgeniyi_aronivny-obedyneny_0.pdf'
+  },
+  {
+    name: 'Баришніков Михайло Якович',
+    href: '/assets/exhibitions/day-of-liberation-from-concentration-camps/baryshnykova_myhayla_yakovycha-obedyneny_0.pdf'
+  },
+  {
+    name: 'Брунштейн-Монастирська Сіма Самойлівна',
+    href: '/assets/exhibitions/day-of-liberation-from-concentration-camps/brunshteyn-monastyrskoyi-obedyneny_0.pdf'
+  },
+  {
+    name: 'Вайспапір Аркадій Мойсейови',
+    href: '/assets/exhibitions/day-of-liberation-from-concentration-camps/vayspapir_arkadiy_moyseyovych-obedyneny_0.pdf'
+  },
+  {
+    name: 'Гофман Янкель Срулєви',
+    href: '/assets/exhibitions/day-of-liberation-from-concentration-camps/goyfmana_yankelya_srulevycha-obedyneny_0.pdf'
+  },
+  {
+    name: 'Давидова В. Ю',
+    href: '/assets/exhibitions/day-of-liberation-from-concentration-camps/davydov_0.pdf'
+  },
+  {
+    name: 'Котляр Петро Львови',
+    href: '/assets/exhibitions/day-of-liberation-from-concentration-camps/kotlyar_petro_lvovych_0.pdf'
+  },
+  {
+    name: 'Кравцов Михайло Єфимович',
+    href: '/assets/exhibitions/day-of-liberation-from-concentration-camps/kravcov_myhaylo_yuhymovych-obedyneny_0.pdf'
+  },
+  {
+    name: 'Лейзерович Марія Григоріївна',
+    href: '/assets/exhibitions/day-of-liberation-from-concentration-camps/leyzerovych_merged_0.pdf'
+  },
+  {
+    name: 'Мажбиц Євгенія Зюзівна (Спектор)',
+    href: '/assets/exhibitions/day-of-liberation-from-concentration-camps/mazhbyc_yevgeniya_zyuzivna_spektor_0.pdf'
+  },
+  {
+    name: 'Поліщук Яков',
+    href: '/assets/exhibitions/day-of-liberation-from-concentration-camps/polishchuk_yakov_moyseevych_2_compressed_0.pdf'
+  },
+  {
+    name: 'Політман Єфим Абрамович',
+    href: '/assets/exhibitions/day-of-liberation-from-concentration-camps/politman_yefym_abramovych_0.pdf'
+  },
+  {
+    name: 'Романюк Ольга Іванівна',
+    href: '/assets/exhibitions/day-of-liberation-from-concentration-camps/romanyuk_olgy_ivanivny_0.pdf'
+  },
+  {
+    name: 'Гайван Олександр Давидович',
+    href: '/assets/exhibitions/day-of-liberation-from-concentration-camps/spogady_gaytvana_o.d.-obedyneny_0.pdf'
+  },
+  {
+    name: 'Гарбуз Іван Герасимович',
+    href: '/assets/exhibitions/day-of-liberation-from-concentration-camps/spogady_svidka_olgopilskogo_getto_garbuza_i._g-obedyneny_0.pdf'
+  },
+  {
+    name: 'Файн Шеля Соломонівна',
+    href: '/assets/exhibitions/day-of-liberation-from-concentration-camps/fayn_shelya_solomonivna_0.pdf'
+  },
+  {
+    name: 'Шафирович Еля Гершкович',
+    href: '/assets/exhibitions/day-of-liberation-from-concentration-camps/shafyrovych_0.pdf'
+  }
+]
+
+## Фотодокументальна виставка з нагоди Міжнародного дня визволення в’язнів фашистських концтаборів.
+
+**Матеріали, які зберігаються у фондах Національного історико-меморіального
+заповідника „Бабин Яр”. Друкуються вперше.**
+
+<MultiCarousel client:load slides={images} />
+
+<DocumentList title="Долучення">
+  {/* prettier-ignore */}{' '}
+  {docs.map(({ name, href }) => <Document href={href}>{name}</Document>)}
+</DocumentList>

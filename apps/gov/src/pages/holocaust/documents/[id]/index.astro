@@ -1,0 +1,41 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro'
+import InternalError from '@/components/InternalError.astro'
+import { generateHTML } from 'tip-tap-utils'
+import { fetchHolocaustDocument } from '@/api'
+import type { HolocaustDocument } from 'shared-types'
+
+export const prerender = false
+
+let doc: HolocaustDocument | undefined = undefined
+let content: string | undefined = undefined
+
+const id = Astro.params.id
+const response = await fetchHolocaustDocument(id as string)
+
+if (response.ok) {
+  doc = response.document
+  content = generateHTML(doc.content)
+}
+
+if (response.error && response.error.isNotFoundError()) {
+  return new Response(null, { status: 404 })
+}
+---
+
+{
+  response.error || !doc ? (
+    <InternalError />
+  ) : (
+    <MainLayout title={doc.title} description={doc.description}>
+      <Fragment set:html={content} />
+    </MainLayout>
+  )
+}
+
+<style is:global>
+  div > img,
+  div > video {
+    @apply !-mx-4 !h-auto !w-[calc(100%+2rem)] !max-w-[calc(100%+2rem)] md:!-mx-[calc(39px+2rem)] md:!w-[calc(100%+((2rem+39px)*2))] md:!max-w-[calc(100%+((2rem+39px)*2))] lg:!-mx-[calc(39px+3rem)] lg:!w-[calc(100%+((3rem+39px)*2))] lg:!max-w-[calc(100%+((3rem+39px)*2))];
+  }
+</style>

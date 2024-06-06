@@ -1,0 +1,60 @@
+---
+import type { Book, Metadata } from 'shared-types'
+import { FloatImage, MediaListItem, SSRPagination } from 'ui'
+import MainLayout from '@/layouts/MainLayout.astro'
+import { ResponseError, formatDate } from 'shared'
+import { fetchBooks } from '@/api'
+import InternalError from '@/components/InternalError.astro'
+
+export const prerender = false
+
+let books: Book[] = []
+let metadata: Metadata | undefined = undefined
+let error: ResponseError | undefined = undefined
+
+const currentPage = Astro.url.searchParams.get('page') || '1'
+const response = await fetchBooks(currentPage)
+
+if (response.ok) {
+  books = response.data.books
+  metadata = response.data.metadata
+}
+
+if (!response.ok) {
+  error = response.error
+}
+
+if (response.error && response.error.isNotFoundError()) {
+  return new Response(null, { status: 404 })
+}
+---
+
+{
+  error ? (
+    <InternalError />
+  ) : (
+    <MainLayout title="Бібліотека" description="Бібліотека">
+      <div class="not-prose">
+        <h1 class="mb-10 text-3xl font-bold">Бібліотека</h1>
+        {books.map(book => (
+          <MediaListItem href={`/education/library/${book.id}`}>
+            <div slot="header" class="">
+              <h2 class="text-2xl font-bold">{book.title}</h2>
+              <p class="text-base opacity-40">{formatDate(book.occuredOn)}</p>
+            </div>
+            <FloatImage slot="left" src={book.cover} alt={book.title} />
+            <p slot="right">{book.description}</p>
+          </MediaListItem>
+        ))}
+        <div class="mt-10">
+          {books.length > 0 && metadata && (
+            <SSRPagination
+              current={metadata.currentPage}
+              total={metadata.lastPage}
+            />
+          )}
+        </div>
+      </div>
+    </MainLayout>
+  )
+}

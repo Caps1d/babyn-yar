@@ -1,0 +1,68 @@
+---
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+interface Props {
+  next?: boolean
+  prev?: boolean
+  current: number
+  total: number
+}
+
+const { current, total } = Astro.props
+
+const next = current < total
+const prev = current > 1
+
+const delta = 3
+const lower = Math.max(1, current - delta)
+const upper = Math.min(total, current + delta)
+const pages = Array.from({ length: upper - lower + 1 }, (_, i) => i + lower)
+
+function addPageNumber(pageNum: number) {
+  const baseUrl = new URL(Astro.url.href)
+  baseUrl.searchParams.set('page', pageNum.toString())
+  return baseUrl.pathname + baseUrl.search
+}
+---
+
+<div class="flex items-center justify-end gap-2">
+  <a
+    href={addPageNumber(1)}
+    class={`-mr-2.5 flex -space-x-3 ${
+      prev ? '' : 'pointer-events-none opacity-30'
+    }`}
+  >
+    <ChevronLeft className="w-4 h-4" />
+    <ChevronLeft className="w-4 h-4" />
+  </a>
+  <a
+    href={addPageNumber(current - 1)}
+    class={`${prev ? '' : 'pointer-events-none opacity-30'}`}
+  >
+    <ChevronLeft className="w-4 h-4" />
+  </a>
+  {
+    pages.map(pageNum => (
+      <a
+        href={addPageNumber(pageNum)}
+        class={`text-base ${pageNum === current ? 'font-bold' : ''}`}
+      >
+        {pageNum}
+      </a>
+    ))
+  }
+  <a
+    href={addPageNumber(current + 1)}
+    class={`${next ? '' : 'pointer-events-none opacity-30'}`}
+  >
+    <ChevronRight className="w-4 h-4" />
+  </a>
+  <a
+    href={addPageNumber(total)}
+    class={`-ml-2.5 flex -space-x-3 ${
+      next ? '' : 'pointer-events-none opacity-30'
+    }`}
+  >
+    <ChevronRight className="w-4 h-4" />
+    <ChevronRight className="w-4 h-4" />
+  </a>
+</div>

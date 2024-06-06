@@ -1,0 +1,14 @@
+---
+interface Props {
+  src: string
+  alt: string
+}
+
+const { src, alt } = Astro.props
+---
+
+<div class="md:float-left">
+  <div class="aspect-[16/9] overflow-hidden pb-2 md:pr-4">
+    <img src={src} alt={alt} class="h-full w-full object-cover" />
+  </div>
+</div>

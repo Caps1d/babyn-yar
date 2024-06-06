@@ -1,0 +1,20 @@
+---
+interface Props {
+  href: string
+  maxImgWidth?: string
+}
+
+const { href, maxImgWidth = 'w-full md:max-w-[400px]' } = Astro.props
+---
+
+<div class="mb-12 overflow-hidden">
+  <a slot="header" href={href} class="mb-2 block w-full">
+    <slot name="header" />
+  </a>
+  <a href={href} class={`block w-full ${maxImgWidth}`}>
+    <slot name="left" />
+  </a>
+  <a href={href} class="block">
+    <slot name="right" />
+  </a>
+</div>

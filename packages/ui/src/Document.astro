@@ -1,0 +1,15 @@
+---
+import { FileText } from 'lucide-react'
+
+interface Props {
+  href: string
+}
+const { href } = Astro.props
+---
+
+<a href={href} class="even:white flex w-full gap-3 px-3 py-2 odd:bg-zinc-50">
+  <FileText size={20} />
+  <span class="line-clamp-1 flex-1 text-base">
+    <slot />
+  </span>
+</a>

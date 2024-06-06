@@ -1,0 +1,74 @@
+---
+import MainLayout from '@/layouts/MainLayout.astro'
+import { FloatImage, MediaListItem, SSRPagination } from 'ui'
+import type { Event, Metadata } from 'shared-types'
+import { ResponseError } from 'shared'
+import { fetchEvents } from '@/api'
+import InternalError from '@/components/InternalError.astro'
+
+export const prerender = false
+
+let events: Event[] = []
+let metadata: Metadata | undefined = undefined
+let error: ResponseError | undefined = undefined
+
+const currentPage = Astro.url.searchParams.get('page') || '1'
+const response = await fetchEvents(currentPage)
+
+if (response.ok) {
+  events = response.data.events
+  metadata = response.data.metadata
+}
+
+if (!response.ok) {
+  error = response.error
+}
+
+if (response.error && response.error.isNotFoundError()) {
+  return new Response(null, { status: 404 })
+}
+---
+
+{
+  error ? (
+    <InternalError />
+  ) : (
+    <MainLayout title="Події" description="Переглянути всі події">
+      <div class="not-prose">
+        {events.map((e, i) => (
+          <MediaListItem
+            href={`/events/${e.id}`}
+            maxImgWidth={`${i === 0 ? 'md:max-w-[480px]' : 'md:max-w-[400px]'}`}
+          >
+            <h2
+              slot="header"
+              class={`${
+                i === 0 ? 'text-3xl' : 'text-2xl'
+              } font-bold text-black`}
+            >
+              {e.title}
+            </h2>
+            <FloatImage slot="left" src={e.cover} alt={e.title} />
+
+            <p
+              slot="right"
+              class={`${
+                i === 0 ? 'line-clamp-4' : 'line-clamp-2'
+              } italic hover:underline hover:underline-offset-4`}
+            >
+              {e.description}
+            </p>
+          </MediaListItem>
+        ))}
+        <div class="mt-10">
+          {events.length > 0 && metadata && (
+            <SSRPagination
+              current={metadata.currentPage}
+              total={metadata.lastPage}
+            />
+          )}
+        </div>
+      </div>
+    </MainLayout>
+  )
+}

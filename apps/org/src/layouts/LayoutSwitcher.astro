@@ -1,0 +1,25 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import CompactLayout from './CompactLayout.astro'
+import MainLayout from './MainLayout.astro'
+
+interface Props {
+  title: string
+  description: string
+  type: CollectionEntry<'site'>['data']['type']
+}
+
+const { title, description, type } = Astro.props
+---
+
+{
+  type === 'compact' ? (
+    <CompactLayout {title} {description}>
+      <slot />
+    </CompactLayout>
+  ) : (
+    <MainLayout {title} {description}>
+      <slot />
+    </MainLayout>
+  )
+}

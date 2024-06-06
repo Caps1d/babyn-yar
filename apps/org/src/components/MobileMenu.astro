@@ -1,0 +1,77 @@
+---
+import { MobileNavContent } from 'ui'
+---
+
+<nav
+  id="mobile-nav"
+  class="fixed inset-x-0 bottom-0 top-28 z-20 hidden bg-white px-4 md:hidden"
+>
+  <ul
+    class="max-h-full space-y-8 overflow-y-auto overflow-x-visible overscroll-contain pb-4"
+  >
+    <li class="my-4 text-lg font-bold lowercase">
+      <a href="/events">events</a>
+    </li>
+    <MobileNavContent
+      group="holocaust"
+      links={[
+        {
+          text: 'list of holocaust victims',
+          href: `/holocaust/list-of-holocaust-victims`
+        },
+        {
+          text: 'Eyewitnesses’ testimony',
+          href: `/holocaust/testimonies`
+        }
+      ]}
+    />
+    <MobileNavContent
+      group="education"
+      links={[
+        {
+          text: 'history',
+          href: `/education/history`
+        },
+        {
+          text: 'map of Holocaust',
+          href: `/education/map`
+        },
+        {
+          text: 'archive',
+          href: `/education/archive`
+        },
+        {
+          text: 'library',
+          href: `/education/library`
+        },
+        {
+          text: 'exhibitions',
+          href: `/education/exhibitions/1`
+        },
+        {
+          text: 'topical excursions',
+          href: `/education/topical-excursions`
+        }
+      ]}
+    />
+    <MobileNavContent
+      group="connect"
+      links={[
+        { text: 'find us', href: `/connect/find-us` },
+        { text: 'contacts', href: '/connect/contact' }
+      ]}
+    />
+    <MobileNavContent
+      group="support"
+      links={[
+        {
+          text: 'partnership',
+          href: `/support/partnership`
+        }
+      ]}
+    />
+    <li class="my-4 text-lg font-bold lowercase">
+      <a href="/gallery">gallery</a>
+    </li>
+  </ul>
+</nav>

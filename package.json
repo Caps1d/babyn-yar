@@ -1,0 +1,28 @@
+{
+  "name": "babyn-yar",
+  "type": "module",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "dotenv -- turbo run dev --concurrency 12",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "@turbo/gen": "^1.9.7",
+    "@typescript-eslint/parser": "^6.6.0",
+    "dotenv-cli": "latest",
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "*",
+    "prettier": "^2.8.8",
+    "prettier-plugin-svelte": "^2.10.1",
+    "prettier-plugin-tailwindcss": "^0.2.7",
+    "turbo": "latest"
+  },
+  "packageManager": "npm@9.3.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

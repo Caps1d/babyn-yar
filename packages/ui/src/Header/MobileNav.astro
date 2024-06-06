@@ -1,0 +1,55 @@
+---
+import MobileNavContent from './MobileNavContent.astro'
+import { getLangFromUrl, useTranslations } from 'i18n'
+
+const lang = getLangFromUrl(Astro.url)
+const t = useTranslations(lang)
+---
+
+<nav
+  id="mobile-nav"
+  class="fixed inset-x-0 bottom-0 top-28 z-20 hidden bg-white px-4 md:hidden"
+>
+  <ul
+    class="max-h-full space-y-8 overflow-y-auto overflow-x-visible overscroll-contain"
+  >
+    <MobileNavContent
+      group={t('nav.visit')}
+      links={[
+        { text: t('nav.visit.events'), href: `/${lang}/visit/events/all/1` }
+      ]}
+    />
+    <MobileNavContent
+      group={t('nav.education')}
+      links={[
+        {
+          text: t('nav.education.history'),
+          href: `/${lang}/education/history`
+        },
+        {
+          text: t('nav.education.map'),
+          href: `/${lang}/education/map`
+        },
+        {
+          text: t('nav.education.archive'),
+          href: `/${lang}/education/archive`
+        }
+      ]}
+    />
+    <MobileNavContent
+      group={t('nav.connect')}
+      links={[
+        { text: t('nav.connect.find-us'), href: `/${lang}/connect/find-us` }
+      ]}
+    />
+    <MobileNavContent
+      group={t('nav.support')}
+      links={[
+        {
+          text: t('nav.support.partnership'),
+          href: `/${lang}/support/partnership`
+        }
+      ]}
+    />
+  </ul>
+</nav>

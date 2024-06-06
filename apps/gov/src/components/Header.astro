@@ -1,0 +1,85 @@
+---
+import {
+  HeaderSection,
+  HeaderDropdownItem,
+  HeaderLink,
+  HeaderDropdown,
+  LanugagePicker,
+  MobileNavToggle
+} from 'ui'
+---
+
+<header class="fixed top-0 z-10 w-full bg-white">
+  <div
+    class="mx-auto flex items-start justify-between px-4 pb-3 pt-8 md:justify-normal md:px-8 lg:px-12"
+  >
+    <a href="/" aria-label="Go to home page" class="md:mr-6 lg:mr-12">
+      <img src="/logo.webp" alt="Site logo" class="w-44" />
+    </a>
+    <nav class="flex items-center justify-end md:justify-between">
+      <HeaderSection>
+        <HeaderLink href="/events">події</HeaderLink>
+      </HeaderSection>
+      <HeaderDropdown>
+        <HeaderLink slot="trigger">голокост</HeaderLink>
+        <Fragment slot="list">
+          <HeaderDropdownItem
+            href="/holocaust/list-of-holocaust-victims?page=1&pagesize=100"
+          >
+            списки розстріляних
+          </HeaderDropdownItem>
+          <HeaderDropdownItem href="/holocaust/documents">
+            документи
+          </HeaderDropdownItem>
+          <HeaderDropdownItem href="/holocaust/list-of-righteous">
+            списки праведників
+          </HeaderDropdownItem>
+          <HeaderDropdownItem href="/holocaust/testimonies">
+            свідчення очивидців трагедії
+          </HeaderDropdownItem>
+        </Fragment>
+      </HeaderDropdown>
+      <HeaderDropdown>
+        <HeaderLink slot="trigger">освіта</HeaderLink>
+        <Fragment slot="list">
+          <HeaderDropdownItem href="/education/history">
+            історія
+          </HeaderDropdownItem>
+          <HeaderDropdownItem href="/education/map">
+            мапа Голокосту
+          </HeaderDropdownItem>
+          <HeaderDropdownItem href="/education/archive">
+            архів
+          </HeaderDropdownItem>
+          <HeaderDropdownItem href="/education/library">
+            бібліотека
+          </HeaderDropdownItem>
+          <HeaderDropdownItem href="/education/exhibitions/1">
+            виставки
+          </HeaderDropdownItem>
+          <HeaderDropdownItem href="/education/topical-excursions">
+            тематичні екскурсії
+          </HeaderDropdownItem>
+        </Fragment>
+      </HeaderDropdown>
+      <HeaderDropdown>
+        <HeaderLink slot="trigger">зв'язок</HeaderLink>
+        <Fragment slot="list">
+          <HeaderDropdownItem href="/connect/find-us">
+            знайти нас
+          </HeaderDropdownItem>
+          <HeaderDropdownItem href="/connect/contact">
+            контакти
+          </HeaderDropdownItem>
+        </Fragment>
+      </HeaderDropdown>
+      <HeaderSection>
+        <HeaderLink href="/gallery">галерея</HeaderLink>
+      </HeaderSection>
+      <div class="md:border-l md:border-l-black">
+        <LanugagePicker client:load lang="uk" />
+      </div>
+      <MobileNavToggle client:load />
+    </nav>
+  </div>
+</header>

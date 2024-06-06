@@ -1,0 +1,17 @@
+arrowParens: 'avoid'
+singleQuote: true
+bracketSpacing: true
+endOfLine: 'lf'
+semi: false
+tabWidth: 2
+trailingComma: 'none'
+proseWrap: always
+plugins:
+  - prettier-plugin-astro
+  - prettier-plugin-svelte
+  - prettier-plugin-tailwindcss
+pluginSearchDirs: false
+overrides:
+  - files: '*.svelte'
+    options:
+      parser: 'svelte'

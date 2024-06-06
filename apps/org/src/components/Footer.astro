@@ -1,0 +1,49 @@
+---
+import { EMAIL } from 'shared'
+import { Youtube, Instagram, Facebook } from 'lucide-react'
+import { SocialLink, FooterSection, FooterSectionItem } from 'ui'
+---
+
+<footer class="mb-5 mt-20 space-y-1 px-4 md:px-[calc(39px+3rem)]">
+  <div class="flex flex-col items-start justify-between gap-4 md:flex-row">
+    <FooterSection>
+      <FooterSectionItem href="/partners">Partners</FooterSectionItem>
+      <FooterSectionItem href="/structure">Structure</FooterSectionItem>
+      <FooterSectionItem href="/media-about-reserve">
+        Media about reserve
+      </FooterSectionItem>
+    </FooterSection>
+    <FooterSection>
+      <FooterSectionItem href="/legislative-basis/1">
+        Legislative basis
+      </FooterSectionItem>
+      <FooterSectionItem href="/development-concept">
+        The development concept
+      </FooterSectionItem>
+    </FooterSection>
+    <div class="space-y-2">
+      <SocialLink url="https://www.facebook.com/babynyar.gov.ua">
+        <Facebook slot="icon" size={20} />
+        <Fragment slot="text">Facebook</Fragment>
+      </SocialLink>
+      <SocialLink url="https://www.instagram.com/babyn.yar/">
+        <Instagram slot="icon" size={20} />
+        <Fragment slot="text">Instagram</Fragment>
+      </SocialLink>
+      <SocialLink url="https://www.youtube.com/@BabynYar-memorial">
+        <Youtube slot="icon" size={20} />
+        <Fragment slot="text">Youtube</Fragment>
+      </SocialLink>
+    </div>
+  </div>
+  <div class="pt-10">
+    <p>National Historical and Memorial Reserve "Babyn Yar"</p>
+    <p>Ukraine, 04119 Kyiv, st. Yuriy Ilyenka, 44</p>
+    <p>
+      e-mail:
+      <a href={`mailto:${EMAIL}`}>
+        {EMAIL}
+      </a>
+    </p>
+  </div>
+</footer>
